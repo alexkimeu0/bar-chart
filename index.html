@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Chart</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+</head>
+
+<body>
+    <h1>United States GDP</h1>
+
+    <script>
+        fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')
+            .then(res => res.json())
+            .then(res => {
+                const { data } = res;
+
+                createCanvas(data.map(d => [d[0].split('-')[0], d[1]]));
+
+
+            });
+
+        function createCanvas(data) {
+            const w = 800;
+            const h = 500;
+            const padding = 40;
+
+            const barWidth = (w - 2 * padding) / data.length;
+
+            const xScale = d3.scaleLinear()
+                .domain([d3.min(data, d => d[0]), d3.max(data, d => d[0])])
+                .range([padding, w - padding]);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d[1])])
+                .range([h - padding, padding]);
+
+            const svg = d3.select('body')
+                .append('svg')
+                .attr('width', w)
+                .attr('height', h);
+
+
+            svg.selectAll('rect')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('x', (d, i) => (i * barWidth) + padding)
+                .attr('y', d => yScale(d[1]) - padding)
+                .attr('width', barWidth)
+                .attr('height', d => h - yScale(d[1]));
+
+            // Create Axis
+            const xAxis = d3.axisBottom(xScale);
+            const yAxis = d3.axisLeft(yScale);
+
+            svg.append('g')
+                .attr('id', 'x-axis')
+                .attr('transform', `translate(0, ${h - padding})`)
+                .call(xAxis)
+
+            svg.append('g')
+                .attr('id', 'y-axis')
+                .attr('transform', `translate(${padding}, 0)`)
+                .call(yAxis)
+        }
+    </script>
+</body>
+
+</html>
