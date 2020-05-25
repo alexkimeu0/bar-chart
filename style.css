@@ -1,9 +1,9 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-image: radial-gradient( circle 343px at 46.3% 47.5%,  rgba(242,242,242,1) 0%, rgba(241,241,241,1) 72.9% );  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: radial-gradient( circle 343px at 46.3% 47.5%,  rgba(242,242,242,1) 0%, rgba(241,241,241,1) 72.9% );  
 }
 
 #title {
@@ -21,4 +21,30 @@ rect {
 
 rect:hover {
   fill: #fff;
+}
+
+rect.tooltip {
+  fill: pink;
+}
+
+.container { 
+  position: relative;
+}
+
+.tooltip {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #eaeaea;
+  position: absolute;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  border-radius: .2rem;
+  height: 50px;
+  width: 120px;
+  z-index: 100;
+}
+
+.tooltip.show {
+  display: flex;
 }
